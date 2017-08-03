@@ -1,0 +1,84 @@
+<% can_update = can? :permissions, :admin %>
+
+<%= form_tag permissions_admin_admin_path(@admin), method: :post do %>
+  <%= hidden_field_tag :referer, request.headers['Referer'] %>
+  <table class="table table-permissions" id="table-permissions">
+    <thead>
+      <tr>
+        <td colspan="5">
+          <%= submit_tag t('act_as_permission_controllable.views.update_permissions'),
+            class: 'btn btn-default pull-right', disabled: !can_update %>
+          <h4>
+            <%= t('act_as_permission_controllable.views.update_permissions') %>
+            <small>
+              <a class="toggle-checkboxes" href data-target="table-permissions">toggle</a>
+            </small>
+          </h4>
+        </td>
+      </tr>
+    </thead>
+    <tbody>
+      <% controllable_controllers.each_slice(5) do |slice| %>
+        <tr>
+          <% slice.each do |controller| %>
+            <td width="20%">
+              <strong>
+                <%= controller.i18n_name %>
+              </strong>
+              <small><small class="text-muted"><%= controller.priority %></small></small>
+              <small>
+                <a class="toggle-checkboxes" href data-target="checkboxes-<%= @cb = @cb.to_i + 1 %>">toggle</a>
+              </small>
+              <div class="checkboxes" id="checkboxes-<%= @cb %>">
+                <% controller.actions.each do |action| %>
+                  <div class="checkbox">
+                    <label>
+                      <%= check_box_tag "actions[#{action.controller.to_s}][]", action,
+                        action.permitted_in?(@admin.permissions), id: nil, disabled: !can_update %>
+                      <%= action.i18n_name %>
+                    </label>
+                  </div>
+                <% end %>
+              </div>
+            </td>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td class="active" colspan="5">
+          <%= submit_tag t('act_as_permission_controllable.views.update_permissions'),
+            class: 'btn btn-default', disabled: !can_update %>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+<% end %>
+
+<script>
+  (function () {
+    document.addEventListener('click', function (e) {
+      if (/\btoggle-checkboxes\b/.test(e.target.className)) {
+        e.preventDefault();
+        var target = e.target.dataset.target;
+        if (!target) return;
+        var targetElement = document.getElementById(target);
+        if (!targetElement) return;
+        var cbs = targetElement.querySelectorAll('input[type="checkbox"]');
+        var i;
+        var length = cbs.length;
+        var allChecked = true;
+        for (i = 0; i < length; i++) {
+          if (!cbs[i].checked) {
+            allChecked = false;
+            break;
+          }
+        }
+        for (i = 0; i < length; i++) {
+          cbs[i].checked = !allChecked;
+        }
+      }
+    }, false);
+  })();
+</script>

@@ -1,0 +1,15 @@
+en:
+  act_as_permission_controllable:
+    views:
+      forbidden: Forbidden
+      forbidden_page: Sorry, you're not allowed to visit the page you requested.
+      edit_permissions: Edit Permissions
+      update_permissions: Update Permissions
+    actions:
+      new:     'New %{model}'
+      create:  'Create New %{model}'
+      index:   '%{model} List'
+      show:    '%{model} Details'
+      edit:    'Edit %{model}'
+      update:  'Update %{model}'
+      destroy: 'Delete %{model}'

@@ -1,0 +1,14 @@
+zh_CN:
+  activerecord:
+    models:
+      admin: 管理员
+      user: 用户
+  act_as_permission_controllable:
+    controllers:
+      Admin::UsersController: 所有用户
+    actions:
+      Admin::UsersController:
+        index: '所有用户列表'
+      Admin::AdminsController:
+        permissions: '查看和修改权限'
+        welcome: '欢迎页'

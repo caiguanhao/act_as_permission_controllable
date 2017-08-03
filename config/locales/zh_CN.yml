@@ -1,0 +1,15 @@
+zh_CN:
+  act_as_permission_controllable:
+    views:
+      forbidden: 禁止访问
+      forbidden_page: 抱歉，管理员不允许你访问特定页面。
+      edit_permissions: 修改权限设置
+      update_permissions: 更新权限设置
+    actions:
+      new:     '新建%{model}'
+      create:  '创建%{model}'
+      index:   '%{model}列表'
+      show:    '%{model}详细页'
+      edit:    '编辑%{model}'
+      update:  '更改%{model}'
+      destroy: '删除%{model}'

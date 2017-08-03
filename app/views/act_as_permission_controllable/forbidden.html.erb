@@ -1,0 +1,13 @@
+<h1 class="text-danger"><sub class="glyphicon glyphicon-exclamation-sign"></sub> <%= t('act_as_permission_controllable.views.forbidden') %></h1>
+
+<h4><%= t('act_as_permission_controllable.views.forbidden_page') %></h4>
+
+<% if can?(:permissions, :admin) %>
+  <hr>
+  <div class="pull-right">
+    <small><code><%= "Admin.find(#{current_admin.id}).permit!(:#{exception.subject}, :#{exception.action})" %></code></small>
+  </div>
+  <div>
+    <%= link_to t('act_as_permission_controllable.views.edit_permissions'), permissions_admin_admin_path(current_admin), class: 'btn btn-default' %>
+  </div>
+<% end %>

@@ -1,0 +1,14 @@
+en:
+  activerecord:
+    models:
+      admin: Admin
+      user: User
+  act_as_permission_controllable:
+    controllers:
+      Admin::UsersController: All Users
+    actions:
+      Admin::UsersController:
+        index: 'List of All Users'
+      Admin::AdminsController:
+        permissions: 'View / Edit Permissions'
+        welcome: 'Welcome Page'

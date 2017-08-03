@@ -1,0 +1,7 @@
+require 'act_as_permission_controllable/act'
+require 'act_as_permission_controllable/ability'
+require 'act_as_permission_controllable/action'
+require 'act_as_permission_controllable/controller'
+require 'act_as_permission_controllable/helper'
+require 'act_as_permission_controllable/i18n'
+require 'act_as_permission_controllable/railtie'
