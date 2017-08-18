@@ -131,7 +131,7 @@ end
 
 ## View
 You can use `controllable_nav_items` to list permitted pages for current user:
-```eruby
+```erb
 <ul class="nav navbar-nav">
   <% controllable_nav_items do |item| %>
     <%= content_tag :li, class: (name = item.controller_name) == controller.controller_name ? 'active' : nil do %>
@@ -156,6 +156,22 @@ en:
         permissions: 'View and Set Permissions'
       Admin::OrdersController:
         export: 'Export Orders'
+```
+
+## Methods
+### `ban(subject, *actions)` and `permit(subject, *actions)`
+```
+Admin.find(1).permit(:user, :destroy).save
+Admin.find(1).ban(:all).permit('Admin::SettingsController', :update).save
+Admin.find(1).ban(:all).permit(:settings, :update).save
+Admin.find(1).permit(:all).ban(:admin, :permissions).save
+```
+
+### `can?(action, subject)`
+```
+if current_admin.can?(:destroy, :user)
+  # admin can destroy user
+end
 ```
 
 ## Contributing
