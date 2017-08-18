@@ -23,11 +23,10 @@ module ActAsPermissionControllable
     end
 
     def i18n_name
-      model = controller.controller_name.singularize
-      model = I18n.translate(:"activerecord.models.#{model}")
+      model = Controller.new(controller).i18n_name
       defaults = [
         :"act_as_permission_controllable.actions.#{to_s}",
-        to_s,
+        to_s.titleize,
       ]
       I18n.translate(:"act_as_permission_controllable.actions.#{controller.to_s}.#{to_s}",
                      model: model, default: defaults)

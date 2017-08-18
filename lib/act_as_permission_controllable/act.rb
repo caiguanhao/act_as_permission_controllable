@@ -17,8 +17,16 @@ module ActAsPermissionControllable
 
       module ClassMethods
         def grant_permission(options = {})
-          authorize_resource class: false
-          @__permission__ = options.slice(:priority, :index)
+          ActAsPermissionControllable::Controller.set(self, options.slice(:priority, :index))
+
+          def self.inherited(subclass)
+            ActAsPermissionControllable::Controller.set(subclass, {})
+            super
+          end
+        end
+
+        def skip_grant_permission
+          ActAsPermissionControllable::Controller.remove(self)
         end
       end
     end

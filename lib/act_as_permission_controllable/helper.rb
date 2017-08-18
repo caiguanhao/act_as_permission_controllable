@@ -3,7 +3,7 @@ module ActAsPermissionControllable
     def controllable_nav_items(user = current_admin, &block)
       @_controllable_nav_items ||= user.permissions.map do |controller_name, actions|
         controller = Controller.new(controller_name)
-        next nil if controller.nil?
+        next nil if controller.nil? || !controller.controllable?
         next nil if actions.map(&:to_s).exclude?(controller.index.to_s)
         controller
       end.compact.

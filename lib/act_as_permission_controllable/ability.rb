@@ -6,7 +6,7 @@ module ActAsPermissionControllable
       include CanCan::Ability
 
       def initialize(user)
-        return if !(Hash === user.permissions)
+        return if !user || !(Hash === user.permissions)
         user.permissions.each do |controller_name, actions|
           controller = controller_name.safe_constantize
           next if controller.nil?

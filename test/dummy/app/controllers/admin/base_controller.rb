@@ -1,6 +1,8 @@
 class Admin::BaseController < ApplicationController
   layout 'admin'
 
+  grant_permission
+
   before_action do
     I18n.locale = (session[:locale] || I18n.default_locale).to_sym
   end

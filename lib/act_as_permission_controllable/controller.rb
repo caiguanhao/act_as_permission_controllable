@@ -1,5 +1,9 @@
 module ActAsPermissionControllable
   class Controller
+    mattr_accessor :permission_controllable_controllers do
+      Hash.new
+    end
+
     mattr_accessor :base_controller do
       -> {
         ::Admin::BaseController
@@ -14,6 +18,20 @@ module ActAsPermissionControllable
           end
         end
       }
+    end
+
+    def self.set(controller, options)
+      if !self.permission_controllable_controllers[controller]
+        controller.authorize_resource(class: false) # cancancan
+      end
+      self.permission_controllable_controllers[controller] = options
+    end
+
+    def self.remove(controller)
+      if self.permission_controllable_controllers[controller]
+        self.permission_controllable_controllers.delete(controller)
+        controller.skip_authorize_resource # cancancan
+      end
     end
 
     def self.get_controllers(sorted: false)
@@ -40,7 +58,7 @@ module ActAsPermissionControllable
                     when String then controller.safe_constantize
                     else controller
                     end
-      @data = @controller.instance_variable_get(:'@__permission__')
+      @data = self.class.permission_controllable_controllers[@controller]
     end
 
     def nil?
@@ -60,8 +78,10 @@ module ActAsPermissionControllable
     end
 
     def i18n_name
+      name = controller_name.singularize
       defaults = [
-        :"activerecord.models.#{controller_name.singularize}",
+        :"activerecord.models.#{name}",
+        name.camelize,
       ]
       I18n.translate(:"act_as_permission_controllable.controllers.#{to_s}", default: defaults)
     end
