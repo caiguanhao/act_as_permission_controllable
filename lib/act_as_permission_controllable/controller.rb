@@ -4,16 +4,10 @@ module ActAsPermissionControllable
       Hash.new
     end
 
-    mattr_accessor :base_controller do
-      -> {
-        ::Admin::BaseController
-      }
-    end
-
     mattr_accessor :preload_controller do
       -> {
         if ::Rails.application.config.cache_classes != true
-          ::Dir["#{::Rails.root}/app/controllers/admin/**/*_controller.rb"].each do |file|
+          ::Dir["#{::Rails.root}/app/controllers/**/*_controller.rb"].each do |file|
             require file
           end
         end
@@ -36,18 +30,13 @@ module ActAsPermissionControllable
 
     def self.get_controllers(sorted: false)
       self.preload_controller.call if Proc === self.preload_controller
-
-      base_controller = self.base_controller
-      base_controller = base_controller.call if base_controller.respond_to?(:call)
-
-      return [] if !base_controller.respond_to?(:subclasses)
-      controllers = base_controller.subclasses.map { |controller|
+      controllers = self.permission_controllable_controllers.map { |controller, _|
         self.new(controller)
       }.select(&:controllable?)
 
       controllers = controllers.sort_by(&:controller_name).sort_by.with_index { |controller, i|
         [-1 * controller.priority, i]
-      } if sorted 
+      } if sorted
 
       controllers
     end
@@ -66,7 +55,7 @@ module ActAsPermissionControllable
     end
 
     def controllable?
-      !!@data
+      !!@data && actions.present?
     end
 
     def controller_name

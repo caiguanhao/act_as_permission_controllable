@@ -50,24 +50,28 @@ module ActAsPermissionControllable
           end
 
           subject = subject.to_s
-          Controller.get_controllers.each do |controller| 
+          controller = Controller.get_controllers.find do |controller|
             name, key = controller.controller_name, controller.to_s
-            if subject == key || subject == name || subject == name.singularize
-              self.permissions[key] ||= []
-              if actions == [ :all ]
-                actions = controller.actions.map(&:to_s)
-              else
-                actions = actions.map(&:to_s)
-              end
-              if type == 'permit'
-                self.permissions[key] += actions
-              elsif type == 'ban'
-                self.permissions[key] -= actions
-              end
-              self.permissions[key].uniq!
-              self.permissions.delete(key) if self.permissions[key].empty?
-            end
+            subject == key || subject == name || subject == name.singularize
           end
+
+          return if controller.nil?
+
+          key = controller.to_s
+          self.permissions[key] ||= []
+          if actions == [ :all ]
+            actions = controller.actions.map(&:to_s)
+          else
+            actions = actions.flatten.map(&:to_s)
+          end
+          if type == 'permit'
+            self.permissions[key] += actions
+          elsif type == 'ban'
+            self.permissions[key] -= actions
+          end
+          self.permissions[key].uniq!
+          self.permissions.delete(key) if self.permissions[key].empty?
+
           return
         end
     end

@@ -137,7 +137,7 @@ You can use `controllable_nav_items` to list permitted pages for current user:
     <%= content_tag :li, class: (name = item.controller_name) == controller.controller_name ? 'active' : nil do %>
       <%= link_to item.i18n_name, url_for(controller: name, action: item.index) rescue nil %>
     <% end %>
-   <% end %>
+  <% end %>
 </ul>
 ```
 
@@ -160,15 +160,25 @@ en:
 
 ## Methods
 ### `ban(subject, *actions)` and `permit(subject, *actions)`
-```
-Admin.find(1).permit(:user, :destroy).save
-Admin.find(1).ban(:all).permit('Admin::SettingsController', :update).save
+```ruby
+# permit multiple actions of a controller
+Admin.find(1).permit(:user, :create, :update, :destroy).save
+
+# permit all actions in user controller
+Admin.find(1).permit(:user, :all).save
+
+# ban all except some permissions
 Admin.find(1).ban(:all).permit(:settings, :update).save
+
+# permit all except some permissions
 Admin.find(1).permit(:all).ban(:admin, :permissions).save
+
+# you can use controller class name as subject
+Admin.find(1).ban(:all).permit('Admin::SettingsController', :update).save
 ```
 
 ### `can?(action, subject)`
-```
+```ruby
 if current_admin.can?(:destroy, :user)
   # admin can destroy user
 end
