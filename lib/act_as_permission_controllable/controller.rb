@@ -15,15 +15,15 @@ module ActAsPermissionControllable
     end
 
     def self.set(controller, options)
-      if !self.permission_controllable_controllers[controller]
+      if !self.permission_controllable_controllers[controller.to_s]
         controller.authorize_resource(class: false) # cancancan
       end
-      self.permission_controllable_controllers[controller] = options
+      self.permission_controllable_controllers[controller.to_s] = options
     end
 
     def self.remove(controller)
-      if self.permission_controllable_controllers[controller]
-        self.permission_controllable_controllers.delete(controller)
+      if self.permission_controllable_controllers[controller.to_s]
+        self.permission_controllable_controllers.delete(controller.to_s)
         controller.skip_authorize_resource # cancancan
       end
     end
@@ -47,7 +47,7 @@ module ActAsPermissionControllable
                     when String then controller.safe_constantize
                     else controller
                     end
-      @data = self.class.permission_controllable_controllers[@controller]
+      @data = self.class.permission_controllable_controllers[@controller.to_s]
     end
 
     def nil?
