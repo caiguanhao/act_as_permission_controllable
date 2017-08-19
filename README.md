@@ -4,6 +4,8 @@
 
 Easily integrate cancancan into your application with permission control of every controller action.
 
+![aapc](https://user-images.githubusercontent.com/1284703/29483144-bd8abd5a-84d2-11e7-99de-3741b727621c.png)
+
 ## Installation
 Add this line to your application's Gemfile:
 
@@ -93,6 +95,16 @@ If you don't want a controller to check user permission, use `skip_grant_permiss
 ```ruby
 class Admin::HomeController < Admin::BaseController
   skip_grant_permission
+end
+```
+
+If your controller has different index page:
+```ruby
+class Admin::AdminsController < Admin::BaseController
+  grant_permission index: :welcome
+
+  def welcome
+  end
 end
 ```
 
@@ -187,6 +199,9 @@ if current_admin.can?(:destroy, :user)
   # admin can destroy user
 end
 ```
+
+## Example
+You can run the app in `test/dummy` directory and visit `http://admin.localhost.com:3000`.
 
 ## Contributing
 
