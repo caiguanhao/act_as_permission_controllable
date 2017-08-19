@@ -19,7 +19,7 @@
         <% if current_admin %>
           <% controllable_nav_items do |item| %>
             <%= content_tag :li, class: (name = item.controller_name) == controller.controller_name ? 'active' : nil do %>
-              <%= link_to item.i18n_name, url_for(controller: name, action: item.index) rescue nil %>
+              <%= link_to item.i18n_name, (url_for(controller: name, action: item.index) rescue nil) %>
             <% end %>
           <% end %>
         <% end %>

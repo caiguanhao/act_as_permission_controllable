@@ -17,7 +17,7 @@ module ActAsPermissionControllable
 
       module ClassMethods
         def grant_permission(options = {})
-          ActAsPermissionControllable::Controller.set(self, options.slice(:priority, :index))
+          ActAsPermissionControllable::Controller.set(self, options.slice(:index))
 
           def self.inherited(subclass)
             ActAsPermissionControllable::Controller.set(subclass, {})

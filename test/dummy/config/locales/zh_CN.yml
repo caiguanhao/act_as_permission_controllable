@@ -4,6 +4,9 @@ zh_CN:
       admin: 管理员
       user: 用户
   act_as_permission_controllable:
+    order:
+      - Admin::UsersController
+      - Admin::AdminsController
     controllers:
       Admin::UsersController: 所有用户
     actions:

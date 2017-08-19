@@ -34,9 +34,12 @@ module ActAsPermissionControllable
         self.new(controller)
       }.select(&:controllable?)
 
-      controllers = controllers.sort_by(&:controller_name).sort_by.with_index { |controller, i|
-        [-1 * controller.priority, i]
-      } if sorted
+      if sorted
+        order = I18n.t('act_as_permission_controllable.order', default: [[]])
+        controllers = controllers.sort_by(&:controller_name).sort_by.with_index { |controller, i|
+          [ order.index(controller.to_s) || order.size, i ]
+        }
+      end
 
       controllers
     end
@@ -81,10 +84,6 @@ module ActAsPermissionControllable
 
     def index
       @data[:index].presence || :index
-    end
-
-    def priority
-      @data[:priority].presence || 0
     end
   end
 end

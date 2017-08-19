@@ -8,7 +8,6 @@ class ActAsPermissionControllable::Test < ActiveSupport::TestCase
   def test_get_controllers
     c = ActAsPermissionControllable::Controller
     assert_equal [ 'Admin::AdminsController', 'Admin::UsersController' ], c.get_controllers.map(&:to_s)
-    assert_equal [ 'Admin::UsersController', 'Admin::AdminsController' ], c.get_controllers(sorted: true).map(&:to_s)
   end
 
   def test_user_permit_and_ban

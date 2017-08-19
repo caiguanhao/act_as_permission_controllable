@@ -4,6 +4,9 @@ en:
       admin: Admin
       user: User
   act_as_permission_controllable:
+    order:
+      - Admin::UsersController
+      - Admin::AdminsController
     controllers:
       Admin::UsersController: All Users
     actions:

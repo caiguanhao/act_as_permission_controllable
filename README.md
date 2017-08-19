@@ -135,18 +135,22 @@ You can use `controllable_nav_items` to list permitted pages for current user:
 <ul class="nav navbar-nav">
   <% controllable_nav_items do |item| %>
     <%= content_tag :li, class: (name = item.controller_name) == controller.controller_name ? 'active' : nil do %>
-      <%= link_to item.i18n_name, url_for(controller: name, action: item.index) rescue nil %>
+      <%= link_to item.i18n_name, (url_for(controller: name, action: item.index) rescue nil) %>
     <% end %>
   <% end %>
 </ul>
 ```
 
 ## I18n
-You can customize the names of each controller action:
+You can customize the names of each controller action and the order of each controller:
 ```yaml
 # config/locales/aapc.en.yml
 en:
   act_as_permission_controllable:
+    order:
+      - Admin::OrdersController
+      - Admin::SettingsController
+      - Admin::AdminsController
     controllers:
       Admin::AdminsController:   'Admins'
       Admin::OrdersController:   'Orders'

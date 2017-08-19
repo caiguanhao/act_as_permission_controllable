@@ -1,5 +1,5 @@
 class Admin::UsersController < Admin::BaseController
-  grant_permission priority: 100
+  grant_permission
 
   def index
   end
