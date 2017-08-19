@@ -8,7 +8,8 @@ zh_CN:
       - Admin::UsersController
       - Admin::AdminsController
     controllers:
-      Admin::UsersController: 所有用户
+      Admin::UsersController: 用户
+      Admin::AdminsController: 管理员
     actions:
       Admin::UsersController:
         index: '所有用户列表'

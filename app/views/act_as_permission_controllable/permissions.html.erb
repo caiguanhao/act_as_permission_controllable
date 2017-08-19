@@ -10,6 +10,7 @@
             class: 'btn btn-default pull-right', disabled: !can_update %>
           <h4>
             <%= t('act_as_permission_controllable.views.update_permissions') %>
+            <%= "(#{@admin.permission_count}/#{Admin.total_permission_count})" %>
             <small>
               <a class="toggle-checkboxes" href data-target="table-permissions">toggle</a>
             </small>

@@ -30,6 +30,7 @@ module ActAsPermissionControllable
 
     def self.get_controllers(sorted: false)
       self.preload_controller.call if Proc === self.preload_controller
+
       controllers = self.permission_controllable_controllers.map { |controller, _|
         self.new(controller)
       }.select(&:controllable?)

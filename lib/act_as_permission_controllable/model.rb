@@ -24,6 +24,20 @@ module ActAsPermissionControllable
         self.permissions = perms
       end
 
+      def self.total_permission_count
+        Controller.get_controllers.sum { |controller| controller.actions.size }
+      end
+
+      def permission_count
+        c = 0
+        Controller.get_controllers.each do |controller|
+          if actions = self.permissions[controller.to_s]
+            c += (controller.actions.map(&:to_s) & actions.map(&:to_s)).size
+          end
+        end
+        c
+      end
+
       def can?(*args)
         @current_ability ||= ::Ability.new(self)
         @current_ability.can?(*args)

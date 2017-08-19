@@ -8,7 +8,8 @@ en:
       - Admin::UsersController
       - Admin::AdminsController
     controllers:
-      Admin::UsersController: All Users
+      Admin::UsersController: Users
+      Admin::AdminsController: Admins
     actions:
       Admin::UsersController:
         index: 'List of All Users'
